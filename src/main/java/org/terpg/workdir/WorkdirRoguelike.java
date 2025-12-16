@@ -8,8 +8,8 @@ public class WorkdirRoguelike {
     public static void main(String[] args) throws IOException {
         CliArgs parsed = CliArgs.parse(args);
         GameConfig config = new GameConfig(parsed.mode, parsed.seed, parsed.snapshot, parsed.replay);
-        Game game = new Game(config);
-        game.run();
+        LanternaArenaGame arenaGame = new LanternaArenaGame(config);
+        arenaGame.run();
     }
 
     static class CliArgs {
