@@ -30,7 +30,7 @@ public class LanternaArenaGame {
 
     public void run() throws IOException {
         DefaultTerminalFactory factory = new DefaultTerminalFactory();
-        screen = new TerminalScreen(factory.createTerminal());
+        screen = new TerminalScreen(factory.createTerminalEmulator());
         screen.startScreen();
         seedUtilities();
         ensureQueueFilled();
@@ -84,7 +84,7 @@ public class LanternaArenaGame {
         while (player.hp() > 0 && !enemy.isDefeated()) {
             player.restoreEnergy(3);
             appendLog("Ход " + turn + ": ваша фаза");
-            renderBattle(enemy, "Ваш ход: [A]така или [U]техника");
+            renderBattle(enemy, "Ваш ход: [Q] Атака или [W] Техника");
             String playerLine = playerTurn(enemy);
             appendLog(playerLine);
             if (enemy.isDefeated()) {
@@ -115,13 +115,13 @@ public class LanternaArenaGame {
             }
             if (key.getKeyType() == KeyType.Character && key.getCharacter() != null) {
                 char c = Character.toLowerCase(key.getCharacter());
-                if (c == 'a') {
+                if (c == 'q') {
                     long baseDamage = Math.max(4, 8 - enemy.representation().base());
                     enemy.representation().damage(baseDamage);
                     SoundEffects.hit();
                     return "Вы ударили на " + baseDamage + " HP";
                 }
-                if (c == 'u') {
+                if (c == 'w') {
                     Utility utility = chooseUtility();
                     renderBattle(enemy, "Ваш ход продолжается");
                     if (utility == null) {
