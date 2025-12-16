@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Run tests
+        run: mvn -q test
+      - name: Build shaded jar
+        run: mvn -q package
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: workdir-roguelike
+          path: target/workdir-roguelike-*-shaded.jar
